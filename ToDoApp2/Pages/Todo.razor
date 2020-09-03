@@ -1,0 +1,38 @@
+﻿@page "/todo"
+
+@using ToDoApp2.Data
+@inject ToDoApp2.Data.Services.TodoService TodoService
+
+<h1>Yapılacaklar</h1>
+
+@if (todos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in todos)
+            {
+                <tr>
+                    <td>@todo.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Data.Domains.Todo> todos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        todos = await TodoService.Get();
+    }
+}
